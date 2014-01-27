@@ -1,0 +1,38 @@
+# =========================================================================== #
+# SASS / CSS regeneration tasks.
+# =========================================================================== #
+
+namespace :sass do
+
+	desc "Clean out old compass sass files."
+	task :compass_clean do
+		on roles (:all) do |host|
+			execute "cd #{deploy_to}/current/htdocs && /usr/bin/compass clean"
+		end
+	end
+
+
+	desc "Compile compass sass files."
+	task :compass_compile do
+		on roles (:all) do |host|
+			execute "cd #{deploy_to}/current/htdocs && /usr/bin/compass compile"
+		end
+	end
+
+
+	desc "Delete sass source files from the site."
+	task :delete do
+		on roles (:all) do |host|
+			if test " [ -d #{deploy_to}/current/htdocs/sass ] "
+				execute :rm, "-rf", "#{deploy_to}/current/htdocs/sass"
+			end
+			if test " [ -d #{deploy_to}/current/htdocs/.sass-cache ] "
+				execute :rm, "-rf", "#{deploy_to}/current/htdocs/.sass-cache"
+			end
+			if test " [ -f #{deploy_to}/current/htdocs/regen_sass.sh ] "
+				execute "rm #{deploy_to}/current/htdocs/regen_sass.sh"
+			end
+		end
+	end
+
+end # namespace :sass

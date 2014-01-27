@@ -1,0 +1,21 @@
+# =========================================================================== #
+# ExpressionEngine tasks.
+# =========================================================================== #
+
+namespace :expressionengine do
+
+	desc "Give write permission to the cache directory"
+	task :make_cache_writable do
+		on roles (:all) do |host|
+			execute "cd #{deploy_to}/current/system/expressionengine/cache && chmod -R g+w ."
+		end
+	end
+
+	desc "Symlink the uploads directory"
+	task :symlink_uploads do
+		on roles (:all) do |host|
+			execute "ln -nfs #{shared_path}/uploads #{deploy_to}/current/htdocs/uploads"
+		end
+	end	
+
+end # namespace :expressionengine
