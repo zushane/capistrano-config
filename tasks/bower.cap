@@ -1,0 +1,16 @@
+# =========================================================================== #
+# Bower tasks.
+# =========================================================================== #
+
+namespace :bower do
+
+	bower_location = "#{deploy_to}htdocs/lib/bower"
+
+	desc "Run bower to install dependencies."
+	task :install do
+		on roles (:all) do |host|
+			execute "cd #{bower_location} && /usr/bin/bower"
+		end
+	end
+
+end # namespace :bower
